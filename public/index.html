@@ -7,5 +7,31 @@
 </head>
 <body>
     <h1>Chat App</h1>
+  
+<input type="text" placeholder="enter a message"/>
+<button>Send</button>
+
+
+<div id="messages"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const btn = document.querySelector('button')
+        const input = document.querySelector('input')
+        const messages = document.getElementById('messages')
+        btn.addEventListener('click', () => {
+            socket.emit('user-message', input.value); // Emitting message with event name 'user-message' and message content as input value
+            input.value=""
+        });
+
+
+        socket.on('message',(message)=>{    // checkiing if there's a emit named message on the server
+            const msg = document.createElement('p')
+            msg.innerText=message
+            messages.appendChild(msg)
+
+        })
+    </script>
 </body>
 </html>
